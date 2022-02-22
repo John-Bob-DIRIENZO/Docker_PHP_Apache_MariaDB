@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '2345:80'
+        volumes:
+            - ./app:/var/www/html
+
+    db:
+        image: 'mariadb'
+        restart: always
+        environment:
+            MYSQL_DATABASE: data
+            MYSQL_ROOT_PASSWORD: password
+#        volumes:
+#            # Pour lancer un dump automatiquement au montage du conteneur
+#            - ./database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+
+
+    phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        ports:
+            - '8080:80'
+        environment:
+            - PMA_ARBITRARY=1
